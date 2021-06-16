@@ -13,6 +13,7 @@ class SearcheProductCest
         $I->seeElement('#search_query_top');
         $I->fillField('#search_query_top', 'Printed dress');
         $I->click('#searchbox > button');
+        $I->waitForElement('.product_list');
         $I->seeElement('.product_list');
         $I->seeNumberOfElements('.product-container', 5); 
     }

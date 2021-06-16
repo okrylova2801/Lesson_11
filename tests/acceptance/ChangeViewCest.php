@@ -1,27 +1,25 @@
+  
 <?php
 
-use Page\Acceptance\MainPage;
-use Page\Acceptance\SearchPage;
-
-/**
- * Класс для проверки смены отображения карточек 
-*/  
-class ChangeViewCest
+class SearchBlouseCest
 {
-    /**
-     * Проверяет смену отображения карточек товара
-     * @group t2
-     */
-    public function changeViewToList(AcceptanceTester $I)
+/**
+ * Проверить поиск товара "Blouse" на странице
+ * @group t2
+ */
+    public function checkSearchBlouse(AcceptanceTester $I)
     {
-            $mainPage = new MainPage($I);
-            $searchPage = new SearchPage($I);
-            $I->amOnPage(MainPage::$URL);
-            $mainPage->openSummerDresses()
-                        ->onSearchPage();
-            $I->seeElement(SearchPage::$Grid);
-            $I->seeElement(SearchPage::$productGrid);
-            $searchPage->changeView();
-            $I->seeElement(SearchPage::$productList);
+
+        $I->amOnPage('index.php');
+        $I->waitForElement('#homefeatured > li:nth-child(2) > div > div.left-block > div', 30);
+        $I->moveMouseOver('#homefeatured > li:nth-child(2) > div > div.left-block > div');
+        $I->click('#homefeatured > li:nth-child(2) > div > div.left-block > div > a.quick-view > span');
+        // ожидание iframe с классом .fancybox-iframe в момент иниициализации модального окна (содеражимое iframe отсутствует)
+        $I->waitForElement('.fancybox-iframe', 30);
+        $I->switchToIFrame('.fancybox-iframe');
+        //ожидание содержимого iframe
+        $I->waitForElement('#product', 30); 
+        $I->waitForText('Blouse', 10, '#product > div > div > div.pb-center-column.col-xs-12.col-sm-4 > h1');
+
     }
-} 
+}
